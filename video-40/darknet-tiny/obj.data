@@ -2,4 +2,4 @@ classes= 1
 train  = bitwise/train.txt  
 valid  = bitwise/test.txt  
 names = bitwise/obj.names  
-backup = backup
+backup = '/content/drive/My Drive'

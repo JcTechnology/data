@@ -7,7 +7,7 @@ wget https://pjreddie.com/media/files/darknet19_448.conv.23
 
 mkdir -p darknet/bitwise
 mv darknet19_448.conv.23 darknet/bitwise
-cp data/video-40/darknet-tiny-config/* darknet/bitwise
+cp data/video-40/darknet-tiny/* darknet/bitwise
 cp data/video-40/images/*.jpg darknet/bitwise
 cp data/video-40/labels/*.txt darknet/bitwise
 
