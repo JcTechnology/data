@@ -18,3 +18,5 @@ wget -c https://pjreddie.com/media/files/darknet53.conv.74
 # ./darknet partial cfg/yolov3-tiny.cfg yolov3-tiny.weights yolov3-tiny.conv.15 15
 # mv yolov3-tiny.conv.15 ../
 
+#wget https://pjreddie.com/media/files/darknet19_448.conv.23
+#wget https://www.dropbox.com/s/yvca2um3dketvxi/first-test-core-yolo-obj_20000.weights?dl=0
