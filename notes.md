@@ -1,3 +1,34 @@
+# 22 July 
+
+video 9 has no grapes and is 5 mins
+video 25 is pretty good
+
+
+## Training parameters
+yolov3 with standard modifications to classes and filters
+width=608
+height=608
+max=200 in last layer
+
+## calc anchors
+./darknet detector calc_ancohrs ../data/obj.data -num_of_clusters 9 -width 608 -height 608
+
+## Install OPENCV (https://milq.github.io/install-opencv-ubuntu-debian/)
+sudo apt-get install libopencv-dev python3-opencv
+
+
+## Links
+
+[AlexeyAB/darknet#how-to-improve-object-detection](https://github.com/AlexeyAB/darknet#how-to-improve-object-detection)
+
+[understanding-darknets-yolo-cfg-config-files](https://stackoverflow.com/questions/50390836/understanding-darknets-yolo-cfg-config-files)
+
+[howToDarkenet.txt](https://raw.githubusercontent.com/myay/yolo-Pamono/master/howToDarkenet.txt)
+
+
+
+
+
 # Video 40 train
 
     git clone https://github.com/nicolas42/alexeyAB-darknet

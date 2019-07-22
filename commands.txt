@@ -1,0 +1,2 @@
+./darknet detector train ../bitwise/obj.data ../bitwise/yolo-obj.cfg ../bitwise/yolo-obj_4000.weights
+

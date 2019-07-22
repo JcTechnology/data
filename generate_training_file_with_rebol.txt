@@ -1,0 +1,42 @@
+rebol [
+    title: "Create yolov3 train.txt and test.txt data files"
+]
+
+
+foreach-file: func [ dir fn /local files ] [
+    files: read dir
+    foreach file files [ do :fn dir/:file ]
+    foreach file files [ if #"/" = last file [ foreach-file dir/:file :fn ] ]
+]
+
+printall: func [ a ] [ foreach a a [ print a ] ] 
+
+; === Main ===
+
+; Initialize inscruptable parameters
+dir: %data/
+test-proportion: 0.2
+path-header: "../" ; leave as empty string if unecessary
+files: []
+random/seed now/precise
+
+; Get jpgs in dir
+foreach-file dir func[ file ] [
+    if %.jpg = suffix? file [ append files head insert file path-header ] 
+]
+
+; randomly separate according to the proportions
+files: random files
+len: round test-proportion * length? files
+test: take/part files len
+train: files
+
+; print results
+printall train
+printall test
+
+; temp user with file writing code
+print {
+; write/lines join dir %train.txt train
+; write/lines join dir %test.txt test
+}

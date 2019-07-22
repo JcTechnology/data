@@ -1,0 +1,95 @@
+Nvidia-gpu
+- find out gpu info: nvidia-smi
+- install CUDA
+- install cuDNN version fitting to CUDA drivers and Ubuntu version
+  download deb files for runtime, dev and examples
+  Install the runtime library, for example:
+  sudo dpkg -i libcudnn7_7.0.3.11-1+cuda9.0_amd64.deb
+  Install the developer library, for example:
+  sudo dpkg -i libcudnn7-devel_7.0.3.11-1+cuda9.0_amd64.deb
+  Install the code samples and the cuDNN Library User Guide, for example:
+  sudo dpkg -i libcudnn7-doc_7.0.3.11-1+cuda9.0_amd64.deb
+  Verifying:
+  Copy the cuDNN sample to a writable path:
+  cp -r /usr/src/cudnn_samples_v7/ $HOME
+  Go to the writable path:
+  cd  $HOME/cudnn_samples_v7/mnistCUDNN
+  Compile the mnistCUDNN sample:
+  make clean && make:
+  Run the mnistCUDNN sample:
+  ./mnistCUDNN
+  If cuDNN is properly installed and running on your Linux system, you will see a message similar to the following:
+  Test passed!
+  
+Install OpenCV 3.4.0:
+- install dependencies
+- wget https://github.com/opencv/opencv/archive/3.4.0.zip -O opencv-3.4.0.zip
+- wget https://github.com/opencv/opencv_contrib/archive/3.4.0.zip -O opencv_contrib-3.4.0.zip
+- unzip
+- cd  opencv-3.4.0
+  mkdir build
+  cd build
+- cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-3.4.0/modules -DOPENCV_ENABLE_NONFREE=True ..
+- make j4
+- sudo make install
+
+Install darknet
+- in Makefile set GPU=1, CUDNN=1, OPENCV=1
+- export LD_LIBRARY_PATH=/usr/local/cuda/lib && export PATH=$PATH:/usr/local/cuda/bin && export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+- sudo /bin/bash -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
+  sudo ldconfig  
+- make
+
+create obj.data file (">" means in text file):
+
+>classes= 1
+>train  = data/Data-200nm/train.txt
+>valid  = data/Data-200nm/test.txt
+>names = obj.names
+>backup = backup/
+
+create obj.names file:
+
+>0
+
+for dataset configurations:
+
+- put everything into one folder
+- all training images
+- all annotations, which have the form  class, xmid, ymid, w, h (all relative to image size)
+- test.txt which lists all images for test
+- train.txt which lists all images for train
+(list all files with relative paths to darknet executable)
+- for negative examples, copy the image and leave the corresponding .txt empty
+- in folder with particle component: python3 pamonoDataToYolo.py --csvFileName=NanoSynthMLPolygonFormFactors.csv --imageWidth=1080 --imageHeight=145 --prefix=imagesAndAnnotations
+- useful, in darknet root do: ls -1 data/Data-200nm/unseen/*.png > data/Data-200nm/unseen/unseen.txt
+
+
+ANCHORS:
+- get gen_anchors.py from somewhere 
+- for pjreddie darknet, yolov2, get gen_anchors.py and run: python3 gen_anchors.py -filelist data/firstTry200nm/train.txt  -output_dir anch -num_clusters 5
+- in AlexeyAB Darknet for Yolo v2 use: ./darknet detector calc_anchors cfg/obj.data -num_of_clusters 5 -width 14 -height 5 -show
+  448/32=14
+  160/32=5
+- in AlexeyAB Darknet for Yolo v3 use: ./darknet detector calc_anchors data/hand.data -num_of_clusters 9 -width 720 -height 405 -show
+- copy anchors into cfg file of net description
+
+TRAIN:
+- from scratch:
+./darknet detector train cfg/obj.data cfg/yolov2-tiny-PAMONO200.cfg
+- continue with trained weights:
+./darknet detector train cfg/obj.data cfg/yolov2-tiny.cfg backup/yolov2-tiny.backup
+- to modify loss: https://stats.stackexchange.com/questions/287486/yolo-loss-function-explanation
+- modify training params: https://stackoverflow.com/questions/50390836/understanding-darknets-yolo-cfg-config-files
+- other params: https://github.com/AlexeyAB/darknet/issues/279
+
+TEST:
+- for pjreddie darknet
+./darknet detector test cfg/obj.data cfg/v2-tiny-lessfilters2.cfg backup/v2-tiny-lessfilters2_900.weights data/all200nm/test/capture2013-04-10-1993.png -thresh 0.95
+- for alexeyab map
+./darknet detector map cfg/obj.data  cfg/yolov2-tiny-nd-v2-overfit.cfg backup/yolov2-tiny-nd-v2-overfit_last.weights
+- for alexeyab darknet path of image file is needed
+data/Data-200nm-overfit/test/capture2013-04-11-1747.png 
+- batch predict: ./darknet detector test cfg/coco.data cfg/yolov3.cfg yolov3.weights -ext_output -dont_show < data/train.txt > result.txt
+
+
