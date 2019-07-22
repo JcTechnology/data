@@ -25,3 +25,9 @@ wget https://pjreddie.com/media/files/yolov3-tiny.weights
 
 
 ./darknet detector train ../data/obj.data ../data/yolov2-tiny.cfg darknet19_448.conv.23 -dont_show -map
+
+
+./darknet detector calc_ancohrs ../data/obj.data -num_of_clusters 9 -width 608 -height 608
+
+./darknet detector test ../data/obj.data ../data/yolov2-tiny.cfg darknet19_448.conv.23 < ../data/train.txt > log.txt
+
