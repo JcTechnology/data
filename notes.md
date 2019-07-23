@@ -26,7 +26,7 @@ sudo apt-get install libopencv-dev python3-opencv
 [howToDarkenet.txt](https://raw.githubusercontent.com/myay/yolo-Pamono/master/howToDarkenet.txt)
 
 
-
+https://www.learnopencv.com/training-yolov3-deep-learning-based-custom-object-detector/
 
 
 # Video 40 train
