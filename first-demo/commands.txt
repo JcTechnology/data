@@ -1,0 +1,9 @@
+call this from the darknet directory to test object detection on the dataset in VIRB0040.txt.  copy the files in this directory over to the darknet directory first.
+
+    ./darknet detector test obj.data first.cfg first.weights < VIRB0040.txt  > log.txt
+
+or if you don't want to
+
+    ./darknet detector test ../data/first-demo/obj.data ../data/first-demo/first.cfg ../data/first-demo/first.weights < ../data/first-demo/VIRB0040.txt  > ../data/first-demo/log.txt
+
+
